@@ -1,0 +1,37 @@
+LIGOZZA — JOIN WITH US: ONE REGISTRATION PER EMAIL + UNIQUE MEMBER ID
+
+WHAT THIS VERSION DOES
+- Stores registrations in a MySQL database.
+- Allows each email address to register once (case-insensitive normalization + unique database index).
+- Assigns sequential IDs starting at #2006001, then #2006002, #2006003, etc.
+- Emails the registration details and ID to hansindupulitha403@gmail.com.
+- Attempts to email the customer their own LIGOZZA ID.
+- Uses a database unique constraint, so concurrent repeat submissions cannot receive a second registration.
+
+IMPORTANT: THIS REQUIRES PHP + MYSQL HOSTING
+It will NOT work by opening index.html directly from your computer, and it will not work on static-only hosting unless you add a backend service.
+
+SETUP
+1. Upload the website files to hosting that supports PHP and MySQL.
+2. Create a MySQL database and database user in your hosting control panel.
+3. Import database.sql using phpMyAdmin or your host's database tool.
+   The table starts at AUTO_INCREMENT=2006001.
+4. Edit config.php and fill in db_name, db_user, db_pass, and from_email.
+   Set from_email to an email address/domain approved by your hosting provider. Do not use the customer's email as the From address.
+5. Ensure PHP PDO MySQL is enabled and your hosting can send mail (PHP mail()). For reliable delivery, configure SMTP with your host or a transactional email service if mail() is disabled/unreliable.
+6. Upload all files and test with a new email address. Confirm both the owner and customer receive email, and check Spam/Junk.
+7. Test the same email again. It should show “Email already registered”.
+
+ID NOTES
+- The first successful registration gets #2006001; the next gets #2006002, and so on.
+- IDs are assigned by the database, not by the browser, to avoid duplicate IDs.
+- If the table already has records, do not reset AUTO_INCREMENT without checking existing IDs.
+
+EMAILS
+Owner notification: hansindupulitha403@gmail.com
+The registration ID is saved in the database even if the hosting mail service fails. Check your host's mail configuration/logs if email delivery fails.
+
+SECURITY
+- Keep config.php private; never publish database passwords.
+- Use HTTPS on the live website.
+- This is an email newsletter/member registration, not a password/login account.
