@@ -1,0 +1,6 @@
+PHP BACKEND SETUP
+- Import database.sql into your MySQL database.
+- Edit config.php with your actual database credentials and site_url.
+- Upload register.php and config.php to your PHP hosting web root.
+- Keep this folder off the public GitHub Pages repository.
+- Ensure PHP PDO MySQL and outgoing email are configured by your host.

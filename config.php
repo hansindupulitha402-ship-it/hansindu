@@ -1,6 +1,6 @@
 <?php
-// Set these values in your hosting environment before using the registration form.
-// Do not upload real database passwords to a public repository.
+// Fill these values using the details from your PHP hosting control panel.
+// Keep this file ONLY on PHP hosting. Never upload it to the public GitHub Pages site.
 return [
     'db_host' => 'localhost',
     'db_name' => 'YOUR_DATABASE_NAME',
@@ -8,5 +8,6 @@ return [
     'db_pass' => 'YOUR_DATABASE_PASSWORD',
     'admin_email' => 'hansindupulitha403@gmail.com',
     'site_name' => 'LIGOZZA',
-    'from_email' => 'no-reply@YOUR-DOMAIN.com', // Change to an email address permitted by your hosting provider.
+    'from_email' => 'no-reply@YOUR-DOMAIN.com',
+    'site_url' => 'https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY/',
 ];

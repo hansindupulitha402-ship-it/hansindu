@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 $config = require __DIR__ . '/config.php';
+$GLOBALS['config'] = $config;
 function page(string $title, string $message, bool $success = false): never {
     $color = $success ? '#18794e' : '#b42318';
     $safeTitle = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
     $safeMessage = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
-    echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'.$safeTitle.' — LIGOZZA</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f5f5;color:#111;font-family:Arial,sans-serif}.box{max-width:520px;margin:24px;background:white;border-radius:20px;padding:36px;box-shadow:0 12px 40px #0001}h1{letter-spacing:3px}p{line-height:1.6;color:#444}.status{color:'.$color.';font-weight:700}a{display:inline-block;margin-top:14px;padding:12px 18px;background:#111;color:white;text-decoration:none;border-radius:8px}</style></head><body><main class="box"><h1>LIGOZZA</h1><p class="status">'.$safeTitle.'</p><p>'.$safeMessage.'</p><a href="index.html">Back to LIGOZZA</a></main></body></html>';
+    $backUrl = htmlspecialchars((string)($GLOBALS['config']['site_url'] ?? 'https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPOSITORY/'), ENT_QUOTES, 'UTF-8');
+    echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'.$safeTitle.' — LIGOZZA</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f5f5;color:#111;font-family:Arial,sans-serif}.box{max-width:520px;margin:24px;background:white;border-radius:20px;padding:36px;box-shadow:0 12px 40px #0001}h1{letter-spacing:3px}p{line-height:1.6;color:#444}.status{color:'.$color.';font-weight:700}a{display:inline-block;margin-top:14px;padding:12px 18px;background:#111;color:white;text-decoration:none;border-radius:8px}</style></head><body><main class="box"><h1>LIGOZZA</h1><p class="status">'.$safeTitle.'</p><p>'.$safeMessage.'</p><a href="'.$backUrl.'">Back to LIGOZZA</a></main></body></html>';
     exit;
 }
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { header('Location: index.html'); exit; }
@@ -13,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') { header('Location: index.html'); exi
 if (!empty($_POST['website'])) page('Registration could not be completed', 'Please return to the website and try again.');
 $name = trim((string)($_POST['name'] ?? ''));
 $email = strtolower(trim((string)($_POST['email'] ?? '')));
-if ($name === '' || mb_strlen($name) > 120 || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 254) {
+if ($name === '' || (function_exists('mb_strlen') ? mb_strlen($name, 'UTF-8') : strlen($name)) > 120 || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 254) {
     page('Check your details', 'Enter your name and a valid email address, then try again.');
 }
 if ($config['db_name'] === 'YOUR_DATABASE_NAME' || $config['db_user'] === 'YOUR_DATABASE_USER') {
